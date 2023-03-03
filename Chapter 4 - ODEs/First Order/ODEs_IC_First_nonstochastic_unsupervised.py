@@ -142,11 +142,6 @@ for j in range(0, 1):
         init_x_0 = x_L[reversed_partition_index][0].item()
 
 
-    with open(f'Compiler_Parameters.txt', "a") as fopen:
-        fopen.write(f'Differential Equation: y\' = x\nlinspace[{linspace_size_from}, {linspace_size_to}]\n\
-        steps: {steps}\nn_iter = {n_iter}\nlearning_rate: {learning_rate}\n\
-        hidden_layers: {neurons}\nhidden_size: {neurons}\ndx: {dx}\n\n\n')
-
     for i in range(0, len(x)):
         if i < len(x_L):
             print(f"Loss[{x_L[i].min():.5f}, {x_L[i].max():.5f}]: {loss_list_L[i]:.5f}")
@@ -156,11 +151,11 @@ for j in range(0, 1):
 
     #plt.scatter(x_linspace, x_linspace*y_pred, s = 3)
     plt.plot(x_linspace, np.sin(x_linspace), "r")
-    plt.title(function_name + f"\n Chunk Size: {chunk_size}, Partitions: {partitions}, Neurons: {neurons}, Layers: {extralayers}", fontdict = font)
+    #plt.title(function_name + f"\n Chunk Size: {chunk_size}, Partitions: {partitions}, Neurons: {neurons}, Layers: {extralayers}", fontdict = font)
     plt.grid()
     plt.xlabel("x", fontdict = font)
     plt.ylabel("y", fontdict = font)
-    plt.savefig(f"fig_{function_name}_{partitions}.jpeg")
+    #plt.savefig(f"fig_{function_name}_{partitions}.jpeg")
     plt.show()
     
     partitions += 2
