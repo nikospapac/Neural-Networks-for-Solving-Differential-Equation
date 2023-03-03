@@ -2,8 +2,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
-import os
-import imageio
+#import os
+#import imageio
 
 a = -10
 b = 10
@@ -66,7 +66,7 @@ class net(nn.Module):
                     plt.xlabel("x")
                     plt.ylabel("y")
                     plt.grid()
-                    plt.savefig(f"images\{i}.pdf")
+                    #plt.savefig(f"images\{i}.pdf")
                     
             self.optimizer.step(self.closure)
 
@@ -86,7 +86,7 @@ with torch.no_grad():
     plt.ylabel("Error")
     plt.grid()
     plt.show()
-    fig.savefig(f"errorimages\error.pdf")
+    #fig.savefig(f"errorimages\error.pdf")
     
 
 
