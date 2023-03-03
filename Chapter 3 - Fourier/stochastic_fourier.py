@@ -2,15 +2,35 @@ import numpy as np
 import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
-import os
-import imageio
+import sys
+import argparse
 
-a = -5
-b = 5
-points = 100
-neurons = 100
-learning_rate = 1
-epochs = 1000
+parser = argparse.ArgumentParser()
+parser.add_argument('-a', default = -5, type = float, help='Left bound')
+parser.add_argument('-b', default = 5, type = float, help='Right bound')
+parser.add_argument('--points', default = 100, type = int, help='Number of points')
+parser.add_argument('--neurons', default = 100, type = int, help='Number of neurons')
+parser.add_argument('--learning_rate', default = 1, type = float, help='Learning Rate')
+parser.add_argument('--epochs', default = 1000, type = int, help='Epochs')
+parser.add_argument('--function', default = 'Gaussian', type = str, help='Available functions are: Gaussian or SquarePulse')
+args = parser.parse_args()
+
+
+a = args.a
+b = args.b
+points = args.points
+neurons = args.neurons
+learning_rate = args.learning_rate
+epochs = args.epochs
+default_func = ['Gaussian', 'SquarePulse']
+
+if args.function not in default_func:
+    sys.exit("Not an available function")
+    
+
+    
+    
+
 x = np.linspace(a, b, points)[:, None]
 
 fig, ax = plt.subplots()
@@ -46,11 +66,15 @@ class net(nn.Module):
     
     
     def closure(self):
+        if args.function == 'Gaussian':
+            self.y = torch.exp(-self.x**2)
+        else:
+            self.y = torch.heaviside(1-self.x**2, torch.tensor([0.5]))
         self.optimizer.zero_grad()
         self.epoch += 1
         self.y_pred = self.forward(self.x)
         #self.y = torch.exp(-self.x**2)
-        self.y = torch.heaviside(1-self.x**2, torch.tensor([0.5]))
+        #self.y = torch.heaviside(1-self.x**2, torch.tensor([0.5]))
         self.loss = torch.mean((self.y - self.y_pred)**2)
         print(f"[{self.epoch}]Loss: {self.loss.item():.3e}")
         self.loss.backward()
@@ -65,19 +89,22 @@ class net(nn.Module):
                     xx.requires_grad = True
                     y_pred = fourier.forward(torch.Tensor(xx))
                     #y = np.exp(-x**2)
-                    y= np.heaviside(1-x**2, 0.5)
+                    if args.function == 'Gaussian':
+                        y = np.exp(-x**2)
+                    else:
+                        y = np.heaviside(1-x**2, 0.5)
                     y_show = fourier.forward(torch.Tensor(x))
                     plt.plot(x, np.array(y_show))
-                    plt.plot(x, y)
+                    plt.plot(x, y, "--")
                     plt.xlim(a, b)
                     plt.ylim(0, 2)
                     plt.xlabel("x")
                     plt.ylabel("y")
                     plt.grid()
-                    plt.savefig(f"images\{i}.pdf")
                     
+                      
             self.optimizer.step(self.closure)
-
+        plt.show()
 
 
 fourier = net(x, 1, neurons, 1)
@@ -87,7 +114,10 @@ fourier.run()
 with torch.no_grad():
     plt.clf()
     y_pred = fourier.forward(torch.Tensor(x))
-    y = np.exp(-x**2)
+    if args.function == 'Gaussian':
+        y = np.exp(-x**2)
+    else:
+        y = np.heaviside(1-x**2, 0.5)
     error = np.abs(y_pred - y)
     plt.plot(x, error)
     plt.xlim(a, b)
@@ -95,36 +125,3 @@ with torch.no_grad():
     plt.ylabel("Error")
     plt.grid()
     plt.show()
-    fig.savefig(f"errorimages\error.pdf")
-    
-
-
-# files = sorted(os.listdir("images"), key = len)
-# image_path = [os.path.join("images", file) for file in files]
-# images = []
-
-# for img in image_path:
-#     images.append(imageio.imread(img))
-
-# imageio.mimwrite("output/animation.gif", images, fps = 5)
-
-
-# k1 = fourier.phase.weight[0].item()
-# f1 = fourier.phase.bias[0].item()
-# k2 = fourier.phase.weight[1].item()
-# f2 = fourier.phase.bias[1].item()
-# do = fourier.out.bias[0].item()
-# d1 = fourier.out.weight[0, 0].item()
-# d2 = fourier.out.weight[0, 1].item()
-
-# print(f"y = {do:.2f} + {d1:.2f}sin({k1:.2f}x + {f1:.2f}) + {d2:.2f}sin({k2:.2f}x + {f2})")
-# eq = do + d1*np.sin(k1*x+f1) + d2*np.sin(k2*x+f2)
-
-
-# with torch.no_grad():
-#     y_pred = fourier.forward(torch.Tensor(x))
-#     y = np.exp(-x**2)
-#     plt.plot(x, np.array(y_pred))
-#     plt.plot(x, np.array(y), "--")
-#     plt.grid()
-#     plt.show()
