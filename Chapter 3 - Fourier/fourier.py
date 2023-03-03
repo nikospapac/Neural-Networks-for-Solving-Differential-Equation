@@ -2,18 +2,29 @@ import numpy as np
 import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
-#import os
-#import imageio
+import argparse
 
-a = -10
-b = 10
-points = 1000
-neurons = 100
-learning_rate = 0.1
-epochs = 1000
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-a', default = -10, type = float, help='Left bound')
+parser.add_argument('-b', default = 10, type = float, help='Right bound')
+parser.add_argument('--points', default = 100, type = int, help='Number of points')
+parser.add_argument('--neurons', default = 100, type = int, help='Number of neurons')
+parser.add_argument('--learning_rate', default = 0.1, type = float, help='Learning Rate')
+parser.add_argument('--epochs', default = 1000, type = int, help='Epochs')
+args = parser.parse_args()
+
+a = args.a
+b = args.b
+points = args.points
+neurons = args.neurons
+learning_rate = args.learning_rate
+epochs = args.epochs
 x = np.linspace(a, b, points)[:, None]
 
 fig, ax = plt.subplots()
+
 
 
 class net(nn.Module):
@@ -69,7 +80,6 @@ class net(nn.Module):
                     
             self.optimizer.step(self.closure)
         plt.show()
-
 
 
 fourier = net(x, 1, neurons, 1)
