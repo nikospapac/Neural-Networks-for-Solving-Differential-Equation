@@ -68,6 +68,8 @@ class net(nn.Module):
                     plt.grid()
                     
             self.optimizer.step(self.closure)
+        plt.show()
+
 
 
 fourier = net(x, 1, neurons, 1)
@@ -85,4 +87,3 @@ with torch.no_grad():
     plt.ylabel("Error")
     plt.grid()
     plt.show()
-
