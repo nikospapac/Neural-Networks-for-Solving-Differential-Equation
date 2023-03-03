@@ -32,7 +32,7 @@ class Neural(nn.Module):
         str += f', nn.Linear({self.hid_features}, {self.out_features})'
         
         self.net = eval(f'nn.Sequential({str})')
-        self.optimizer = torch.optim.LBFGS(self.parameters())
+        self.optimizer = torch.optim.LBFGS(self.parameters(), max_iter = 200, max_eval = 100)
         # self.optimizer = torch.optim.LBFGS(self.parameters(),
         #                             lr = 1,
         #                             max_iter = 1000,
@@ -91,8 +91,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--in_points', default = 100, type = int, help='Number of points inside the rectangle')
 parser.add_argument('--b_points', default = 100, type = int, help='Number of points in each bound')
 parser.add_argument('--neurons', default = 12, type = int, help='Number of neurons')
-parser.add_argument('--extralayers', default = 2, type = int, help='Number of extra layers')
-parser.add_argument('--epochs', default = 50, type = int, help='Epochs')
+parser.add_argument('--extralayers', default = 1, type = int, help='Number of extra layers')
+parser.add_argument('--epochs', default = 20, type = int, help='Epochs')
 parser.add_argument('--function', default = 'Laplace', type = str, help='Available functions are: Poisson or Laplace')
 args = parser.parse_args()
         
@@ -100,7 +100,7 @@ epochs = args.epochs
 in_points = args.in_points
 b_points = args.b_points
 neurons = args.neurons
-extralayers = args.extralayers
+extra_layers = args.extralayers
 default_func = ['Poisson', 'Laplace']
 
 if args.function not in default_func:
@@ -109,7 +109,7 @@ if args.function not in default_func:
 fig = plt.figure()
 ax = plt.axes(projection = "3d")
 
-fig2d, ax2d = plt.subplots()
+#fig2d, ax2d = plt.subplots()
 
 # x --> [-1, 1]
 # y --> [-1, 1]
@@ -133,7 +133,7 @@ West = torch.hstack((-1*torch.ones_like(x_b), y_b))
 
 X_Boundary = torch.vstack((North, South, East, West))
 X_Internal = torch.hstack((x_in, y_in))
-model = Neural(2, neurons, 1, extralayers, X_Boundary, X_Internal)
+model = Neural(2, neurons, 1, extra_layers, X_Boundary, X_Internal)
 #U_Boundary = torch.vstack(( torch.ones((b_points, 1)) , torch.ones((b_points, 1)), torch.zeros((b_points, 1)), torch.zeros((b_points, 1)) )) #Boundary Counditions (North, South, East, West)
 #U_Boundary = torch.vstack(( torch.sin(x_b*torch.pi) , -torch.sin(x_b*torch.pi), -torch.sin(y_b*torch.pi), torch.sin(y_b*torch.pi) ))
 
@@ -172,8 +172,8 @@ with torch.no_grad():
     ax.set_zlabel("u")
     #ax.set_title(r"$u_{xx} + u_{yy} = -\frac{1}{\sqrt{2πσ^2}}Exp(-\frac{x^2 + y^2}{2σ^2}), σ^2 = 0.1,$" + "\n" + r"$u(x, 1) = 0, u(x, -1) = 0, u(-1, y) = 0, u(1, y) = 0$", fontdict = font)
     ax.plot_surface(XX, YY, u, cmap = "plasma")
-    ax2d.contourf(XX, YY, u, cmap = "plasma")
-    ax2d.set_xlabel("x")
-    ax2d.set_ylabel("y")
+    #ax2d.contourf(XX, YY, u, cmap = "plasma")
+    #ax2d.set_xlabel("x")
+    #ax2d.set_ylabel("y")
     ax.grid()
     plt.show()
