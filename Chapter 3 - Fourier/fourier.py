@@ -66,7 +66,6 @@ class net(nn.Module):
                     plt.xlabel("x")
                     plt.ylabel("y")
                     plt.grid()
-                    #plt.savefig(f"images\{i}.pdf")
                     
             self.optimizer.step(self.closure)
 
@@ -86,36 +85,4 @@ with torch.no_grad():
     plt.ylabel("Error")
     plt.grid()
     plt.show()
-    #fig.savefig(f"errorimages\error.pdf")
-    
 
-
-# files = sorted(os.listdir("images"), key = len)
-# image_path = [os.path.join("images", file) for file in files]
-# images = []
-
-# for img in image_path:
-#     images.append(imageio.imread(img))
-
-# imageio.mimwrite("output/animation.gif", images, fps = 5)
-
-
-# k1 = fourier.phase.weight[0].item()
-# f1 = fourier.phase.bias[0].item()
-# k2 = fourier.phase.weight[1].item()
-# f2 = fourier.phase.bias[1].item()
-# do = fourier.out.bias[0].item()
-# d1 = fourier.out.weight[0, 0].item()
-# d2 = fourier.out.weight[0, 1].item()
-
-# print(f"y = {do:.2f} + {d1:.2f}sin({k1:.2f}x + {f1:.2f}) + {d2:.2f}sin({k2:.2f}x + {f2})")
-# eq = do + d1*np.sin(k1*x+f1) + d2*np.sin(k2*x+f2)
-
-
-# with torch.no_grad():
-#     y_pred = fourier.forward(torch.Tensor(x))
-#     y = np.exp(-x**2)
-#     plt.plot(x, np.array(y_pred))
-#     plt.plot(x, np.array(y), "--")
-#     plt.grid()
-#     plt.show()
