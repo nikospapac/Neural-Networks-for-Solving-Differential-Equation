@@ -78,6 +78,6 @@ with torch.no_grad():
     plt.plot(xx.numpy(), y_pred.numpy())
     plt.plot(xx.numpy(), np.sin(xx.numpy()), "--", c = "r")
     plt.grid()
-    plt.savefig("saved_file.pdf")
+    #plt.savefig("saved_file.pdf")
     plt.show()
     
