@@ -202,10 +202,6 @@ for j in range(0, 1):
         init_x_0 = x_L[reversed_partition_index][0]
     t4 = time.time()
     print("dt_left = ", t4-t3)
-    with open(f'Compiler_Parameters.txt', "a") as fopen:
-        fopen.write(f'Differential Equation: y\' = x\nlinspace[{linspace_size_from}, {linspace_size_to}]\n\
-        steps: {steps}\nn_iter = {n_iter}\nlearning_rate: {learning_rate}\n\
-        hidden_layers: {neurons}\nhidden_size: {neurons}\ndx: {dx}\n\n\n')
 
 
     for i in range(0, len(x)):
@@ -302,7 +298,7 @@ for i in range(n):
 ax1.plot(np.array(xxforw), np.array(solforw), "--", color = "blue")
 ax1.plot(np.array(xxbackw), np.array(solbackw), "--", color = "blue")
 
-fig1.savefig(f"fig_{function_name}_{partitions}.pdf")
-fig2.savefig(f"Phase_Space_fig_{function_name}_{partitions}.pdf")
+#fig1.savefig(f"fig_{function_name}_{partitions}.pdf")
+#fig2.savefig(f"Phase_Space_fig_{function_name}_{partitions}.pdf")
 
 plt.show()
