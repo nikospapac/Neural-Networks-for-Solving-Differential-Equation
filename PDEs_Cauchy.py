@@ -34,7 +34,7 @@ class Neural(nn.Module):
         #                          nn.Linear(self.hid_features, self.hid_features),
         #                          nn.Tanh(),
         #                          nn.Linear(self.hid_features, self.out_features))
-        self.optimizer = torch.optim.LBFGS(self.parameters())
+        self.optimizer = torch.optim.LBFGS(self.parameters(), max_iter = 200, max_eval = 100)
         self.unpack(X_Boundary, X_Internal)
 
     def unpack(self, X_Boundary, X_Internal):
@@ -87,18 +87,31 @@ class Neural(nn.Module):
             #print(f"Loss_Boundary: {self.internal_loss.item():.3e}")
             """
     def test(self):
-            for epoch in range(n_itter):
+            for epoch in range(epochs):
             #self.net.train()
                 self.epoch += 1
                 self.optimizer.step(self.closure)
                 print(f"Epoch: {self.epoch}, Total Loss: {self.loss.item():.3e}, Boundary Loss: {self.boundary_loss.item():.3e}, Internal Loss: {self.internal_loss.item():.3e}")
+   
+parser = argparse.ArgumentParser()
+parser.add_argument('--in_points', default = 100, type = int, help='Number of points inside the rectangle')
+parser.add_argument('--b_points', default = 100, type = int, help='Number of points in each bound')
+parser.add_argument('--neurons', default = 12, type = int, help='Number of neurons')
+parser.add_argument('--extralayers', default = 1, type = int, help='Number of extra layers')
+parser.add_argument('--epochs', default = 20, type = int, help='Epochs')
+parser.add_argument('--function', default = 'Sin', type = str, help='Available functions are: Sin or Gaussian')
+args = parser.parse_args()
             
-n_itter = 20
-in_points = 1200
-b_points = 200
-neurons = 20
-extra_layers = 1
-#learning_rate = 0.01
+epochs = args.epochs
+in_points = args.in_points
+b_points = args.b_points
+neurons = args.neurons
+extra_layers = args.extralayers
+
+default_func = ['Sin', 'Gaussian']
+
+if args.function not in default_func:
+    sys.exit("Not an available function")
 
 fig = plt.figure()
 ax = plt.axes(projection = "3d")
@@ -128,7 +141,12 @@ X_Boundary = torch.vstack((North, South, West))
 #X_Boundary = X_Boundary[index, :]
 X_Internal = torch.hstack((t_in, x_in))
 #X = torch.vstack((X_Internal, X_Boundary))
-U_Boundary = torch.vstack((torch.zeros((b_points, 1)), torch.zeros((b_points, 1)), torch.sin(x_b*torch.pi) ))
+
+if args.function == "Sin":
+    U_Boundary = torch.vstack((torch.zeros((b_points, 1)), torch.zeros((b_points, 1)), torch.sin(x_b*torch.pi) ))
+    
+if args.function == "Gaussian":
+    U_Boundary = torch.vstack((torch.zeros((b_points, 1)), torch.zeros((b_points, 1)),  1/np.sqrt(2*torch.pi*1e-1)*torch.exp(-x_b**2/(2*1e-1))  ))
 
 model = Neural(2, neurons, 1, extra_layers, X_Boundary, X_Internal)
 #model.optimizer = torch.optim.Adam(model.parameters(), lr = learning_rate)
