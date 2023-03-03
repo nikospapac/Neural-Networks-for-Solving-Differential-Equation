@@ -106,7 +106,7 @@ ax3.set_ylabel("Loss")
 ax3.set_xlabel("Epoch")
 #plt.show()
 t2_exec = time.time()
-fig1.savefig("saved_file.pdf")
+#fig1.savefig("saved_file.pdf")
 print("Execution Time: ", t2_exec - t1_exec)
 
 
