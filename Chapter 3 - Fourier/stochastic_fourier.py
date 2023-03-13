@@ -6,8 +6,8 @@ import sys
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-a', default = -5, type = float, help='Left bound: Default -5')
-parser.add_argument('-b', default = 5, type = float, help='Right bound: Default 5')
+parser.add_argument('--a', default = -5, type = float, help='Left bound: Default -5')
+parser.add_argument('--b', default = 5, type = float, help='Right bound: Default 5')
 parser.add_argument('--points', default = 100, type = int, help='Number of points: Default 100')
 parser.add_argument('--neurons', default = 100, type = int, help='Number of neurons: Default 100')
 parser.add_argument('--learning_rate', default = 1, type = float, help='Learning Rate: Default 1')
