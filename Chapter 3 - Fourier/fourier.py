@@ -7,12 +7,12 @@ import argparse
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-a', default = -10, type = float, help='Left bound')
-parser.add_argument('-b', default = 10, type = float, help='Right bound')
-parser.add_argument('--points', default = 100, type = int, help='Number of points')
-parser.add_argument('--neurons', default = 100, type = int, help='Number of neurons')
-parser.add_argument('--learning_rate', default = 0.1, type = float, help='Learning Rate')
-parser.add_argument('--epochs', default = 1000, type = int, help='Epochs')
+parser.add_argument('-a', default = -10, type = float, help='Left bound: Default -10')
+parser.add_argument('-b', default = 10, type = float, help='Right bound: Default 10')
+parser.add_argument('--points', default = 100, type = int, help='Number of points: Default 100')
+parser.add_argument('--neurons', default = 100, type = int, help='Number of neurons: Default 100')
+parser.add_argument('--learning_rate', default = 0.1, type = float, help='Learning Rate: Default 0.1')
+parser.add_argument('--epochs', default = 1000, type = int, help='Epochs: Default 1000')
 args = parser.parse_args()
 
 a = args.a
