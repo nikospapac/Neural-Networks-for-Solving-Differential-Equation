@@ -88,12 +88,12 @@ class Neural(nn.Module):
             print(f"Epoch: {self.epoch}, Total Loss: {self.loss.item():.3e}, Boundary Loss: {self.boundary_loss.item():.3e}, Internal Loss: {self.internal_loss.item():.3e}")
         
 parser = argparse.ArgumentParser()
-parser.add_argument('--in_points', default = 100, type = int, help='Number of points inside the rectangle')
-parser.add_argument('--b_points', default = 100, type = int, help='Number of points in each bound')
-parser.add_argument('--neurons', default = 12, type = int, help='Number of neurons')
-parser.add_argument('--extralayers', default = 1, type = int, help='Number of extra layers')
-parser.add_argument('--epochs', default = 20, type = int, help='Epochs')
-parser.add_argument('--function', default = 'Laplace', type = str, help='Available functions are: Poisson or Laplace')
+parser.add_argument('--in_points', default = 100, type = int, help='Number of points inside the rectangle: Default 100')
+parser.add_argument('--b_points', default = 100, type = int, help='Number of points in each bound: Default 100')
+parser.add_argument('--neurons', default = 12, type = int, help='Number of neurons: Default 12')
+parser.add_argument('--extralayers', default = 1, type = int, help='Number of extra layers: Default 1')
+parser.add_argument('--epochs', default = 20, type = int, help='Epochs: Default 20')
+parser.add_argument('--function', default = 'Laplace', type = str, help='Available functions are: Poisson or Laplace: Default Laplace')
 args = parser.parse_args()
         
 epochs = args.epochs
