@@ -8,4 +8,4 @@ python "File PathName" --h
 
 Example command for custom network parameters:
 
-python "C:\MyFiles\PDEs_BVP.py" --in_points 200 --b_points 120 --neurons 15 --extralayers 0 --epochs 50 --function Poisson
+python "C:\MyFiles\PDEs_BVP.py" --in_points 200 --b_points 120 --neurons 15 --extralayers 0 --epochs 50 --function Gaussian
