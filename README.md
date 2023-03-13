@@ -1,10 +1,7 @@
 # Neural-Networks-for-Solving-Differential-Equation
-Neural Networks for Solving Differential Equations.
 
 ## Installation
 
-## Usage
+To run the files python and pytorch are needed.
 
-### Odes ... 
 
-### 
