@@ -2,7 +2,7 @@ To run the files, type in python console:
 
 python "File PathName" (will run the network with default parameters)
 
-###########################################################################################################################
+#################################################################################################
 
 To see all the available parameters, type in python console:
 
