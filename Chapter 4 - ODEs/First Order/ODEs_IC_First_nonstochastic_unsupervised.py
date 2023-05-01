@@ -97,6 +97,9 @@ for j in range(0, 1):
                 if (chunk.min() <= x_0 <= chunk.max()):
                     chunk_found = True
                     break
+                if abs(x_0 - chunk.min()) <= dx/2 or abs(x_0 - chunk.max()) < dx/2:
+                    chunk_found = True
+                    break
                 chunk_index += 1
         return chunk_index
 
