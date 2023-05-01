@@ -17,7 +17,7 @@ learning_rate = 0.01
 neurons = 100
 extralayers = 0
 function_name = r"$y''(x) = -sin(y(x)), y(0) = 1, y'(0) = 0$"
-partitions = 1 #partitions must be an odd number
+partitions = 1 #partitions can be an odd or even number
 
 
 class net(nn.Module):
@@ -105,6 +105,9 @@ for j in range(0, 1):
         chunk_found = False
         for chunk in x:
                 if (chunk.min() <= x_0 <= chunk.max()):
+                    chunk_found = True
+                    break
+                if abs(x_0 - chunk.min()) <= dx/2 or abs(x_0 - chunk.max()) < dx/2:
                     chunk_found = True
                     break
                 chunk_index += 1
